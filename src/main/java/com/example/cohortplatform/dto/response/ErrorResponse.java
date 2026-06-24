@@ -1,23 +1,17 @@
 package com.example.cohortplatform.dto.response;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@Getter
+@Setter @NoArgsConstructor @AllArgsConstructor @Builder
 public class ErrorResponse {
     private boolean success;
-    private int status;
     private String message;
-    private String error;
-    private String path;
+    private List<String> errors;
     private LocalDateTime timestamp;
-
+    private String path;
 }
 

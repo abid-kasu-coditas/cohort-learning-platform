@@ -31,6 +31,14 @@ app:
     access-token-expiration: 900000 #15 min
     refresh-token-expiration: 7 # 7 days
 
+aws:
+  access-key: ${ACCESS_KEY}
+  secret-key: ${SECRET_KEY}
+  region: ${REGION}
+  s3:
+    bucket-name: ${BUCKET_NAME}
+
+
 server:
   port: 8080
 

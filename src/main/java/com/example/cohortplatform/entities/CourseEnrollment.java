@@ -1,10 +1,9 @@
 package com.example.cohortplatform.entities;
 
+import com.example.cohortplatform.entities.enums.EnrollmentStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-
 import java.time.LocalDateTime;
 
 @Entity
@@ -26,6 +25,10 @@ public class CourseEnrollment {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id",nullable = false)
     private User user;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status",nullable = false)
+    private EnrollmentStatus status;
 
     @CreatedDate
     @Column(name = "enrolled_at", nullable = false, updatable = false)

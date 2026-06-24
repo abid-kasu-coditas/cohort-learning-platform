@@ -1,10 +1,12 @@
 package com.example.cohortplatform.entities;
 
+import com.example.cohortplatform.entities.enums.ContentType;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
+import javax.swing.text.AbstractDocument;
 import java.time.LocalDateTime;
 
 @Entity
@@ -29,6 +31,10 @@ public class CourseMaterial {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id",nullable = false)
     private Course course;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "content_type",nullable = false)
+    private ContentType contentType;
 
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)

@@ -16,18 +16,25 @@ import java.time.LocalDateTime;
 @Builder
 public class Course {
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "title",nullable = false)
+    @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name = "description",nullable = false, columnDefinition = "TEXT")
+    @Column(name = "description", nullable = false, columnDefinition = "TEXT")
     private String description;
 
+    @Column(name = "max_capacity")
+    private Integer maxCapacity;
+
+    @Builder.Default
+    @Column(name = "is_active", nullable = false)
+    private boolean isActive = true;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "instructor_id",nullable = false)
+    @JoinColumn(name = "instructor_id", nullable = false)
     private User instructor;
 
     @CreatedDate
