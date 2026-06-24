@@ -12,23 +12,22 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "course_enrollments")
+@Table(name = "submissions")
 @Builder
-public class CourseEnrollment {
+public class Submission {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "course_id",nullable = false)
-    private Course course;
+    @JoinColumn(name = "assignment_id")
+    private Assignment assignment;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id",nullable = false)
-    private User user;
+    @JoinColumn(name = "student_id")
+    private User student;
 
     @CreatedDate
-    @Column(name = "enrolled_at", nullable = false, updatable = false)
-    private LocalDateTime enrolledAt;
-
+    @Column(name = "submitted_at", nullable = false, updatable = false)
+    private LocalDateTime submittedAt;
 }
