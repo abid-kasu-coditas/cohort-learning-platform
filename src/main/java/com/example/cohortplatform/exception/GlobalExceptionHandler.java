@@ -38,6 +38,16 @@ public class GlobalExceptionHandler {
                 .timestamp(LocalDateTime.now()).path(req.getRequestURI()).build());
     }
 
+    @ExceptionHandler(CourseCapacityExceededException.class)
+    public ResponseEntity<ErrorResponse> handleCapacityExceeded(CourseCapacityExceededException ex, HttpServletRequest req) {
+        return buildResponse(HttpStatus.CONFLICT, ex.getMessage(), req);
+    }
+
+    @ExceptionHandler(DuplicateEnrollmentException.class)
+    public ResponseEntity<ErrorResponse> handleDuplicateEnrollment(DuplicateEnrollmentException ex, HttpServletRequest req) {
+        return buildResponse(HttpStatus.CONFLICT, ex.getMessage(), req);
+    }
+
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<ErrorResponse> handleBadCredentials(BadCredentialsException ex, HttpServletRequest req) {
         return buildResponse(HttpStatus.UNAUTHORIZED, "Invalid email or password", req);
