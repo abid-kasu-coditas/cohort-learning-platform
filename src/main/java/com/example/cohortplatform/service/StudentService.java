@@ -1,6 +1,7 @@
 package com.example.cohortplatform.service;
 
 
+import com.example.cohortplatform.dto.message.SubmissionEvent;
 import com.example.cohortplatform.dto.response.*;
 import com.example.cohortplatform.entities.*;
 import com.example.cohortplatform.entities.enums.EnrollmentStatus;
@@ -11,6 +12,7 @@ import com.example.cohortplatform.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -45,6 +47,7 @@ public class StudentService {
 
     private final EmailService emailService;
     private final FileStorageService fileStorageService;
+    private final SimpMessagingTemplate messagingTemplate;
 
 
     public PageResponse<CourseDetailDto> getActiveCourses(Pageable pageable) {
@@ -145,6 +148,21 @@ public class StudentService {
         }
 
         log.info("Submission saved for studentId={}, assignmentId={}", studentId, assignmentId);
+
+        User studentFull = userRepository.findById(studentId)
+                .orElseThrow(() -> new ResourceNotFoundException("Student not found: " + studentId));
+        messagingTemplate.convertAndSend(
+                "/topic/assignments/" + assignmentId + "/submissions",
+                SubmissionEvent.newSubmission(
+                        saved.getId(),
+                        assignmentId,
+                        studentId,
+                        studentFull.getFirstname() + " " + studentFull.getLastname(),
+                        LocalDateTime.now()
+                )
+        );
+        log.debug("Broadcast NEW_SUBMISSION to /topic/assignments/{}/submissions", assignmentId);
+
         return SubmissionResponse.builder()
                 .submissionId(submission.getId())
                 .status(submission.getStatus())

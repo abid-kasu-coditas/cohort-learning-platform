@@ -27,7 +27,6 @@ public class StudentController {
     public ResponseEntity<ApiResponse<PageResponse<CourseDetailDto>>> getActiveCourses(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
-        log.debug("GET /student/courses - page: {}, size: {}", page, size);
         return ResponseEntity.ok(ApiResponse.success(
                 studentService.getActiveCourses(PageRequest.of(page, size)), "Courses fetched"));
     }
@@ -36,7 +35,6 @@ public class StudentController {
     public ResponseEntity<ApiResponse<EnrollmentResponse>> enroll(
             @PathVariable Long courseId,
             @AuthenticationPrincipal UserPrincipal principal) {
-        log.debug("POST /student/courses/{}/enroll - studentId: {}", courseId, principal.getId());
         return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success(
                 studentService.enroll(courseId, principal.getId()), "Enrolled successfully"));
     }
@@ -47,7 +45,6 @@ public class StudentController {
             @AuthenticationPrincipal UserPrincipal principal,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
-        log.debug("GET /student/enrollments - studentId: {}, page: {}, size: {}", principal.getId(), page, size);
         return ResponseEntity.ok(ApiResponse.success(
                 studentService.getMyEnrollments(principal.getId(), PageRequest.of(page, size)), "Enrollments fetched"));
     }
@@ -59,7 +56,6 @@ public class StudentController {
             @AuthenticationPrincipal UserPrincipal principal,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
-        log.debug("GET /student/courses/{}/materials - studentId: {}", courseId, principal.getId());
         return ResponseEntity.ok(ApiResponse.success(
                 studentService.getMaterials(courseId, principal.getId(), PageRequest.of(page, size)), "Materials fetched"));
     }
@@ -70,7 +66,6 @@ public class StudentController {
             @AuthenticationPrincipal UserPrincipal principal,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
-        log.debug("GET /student/courses/{}/announcements - studentId: {}", courseId, principal.getId());
         return ResponseEntity.ok(ApiResponse.success(
                 studentService.getAnnouncements(courseId, principal.getId(), PageRequest.of(page, size)), "Announcements fetched"));
     }
@@ -81,7 +76,6 @@ public class StudentController {
             @AuthenticationPrincipal UserPrincipal principal,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
-        log.debug("GET /student/courses/{}/assignments - studentId: {}", courseId, principal.getId());
         return ResponseEntity.ok(ApiResponse.success(
                 studentService.getAssignments(courseId, principal.getId(), PageRequest.of(page, size)), "Assignments fetched"));
     }
@@ -93,7 +87,6 @@ public class StudentController {
             @RequestParam("files") List<MultipartFile> files,
             @RequestParam(value = "notes", required = false) String notes,
             @AuthenticationPrincipal UserPrincipal principal) {
-        log.debug("POST /student/assignments/{}/submit - studentId: {}, files: {}", assignmentId, principal.getId(), files.size());
         return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success(
                 studentService.submit(assignmentId, principal.getId(), files, notes),
                 "Submission uploaded successfully"));
@@ -104,7 +97,6 @@ public class StudentController {
             @AuthenticationPrincipal UserPrincipal principal,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
-        log.debug("GET /student/submissions - studentId: {}", principal.getId());
         return ResponseEntity.ok(ApiResponse.success(
                 studentService.getMySubmissions(principal.getId(), PageRequest.of(page, size)), "Submissions fetched"));
     }
@@ -114,7 +106,6 @@ public class StudentController {
             @AuthenticationPrincipal UserPrincipal principal,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
-        log.debug("GET /student/grades - studentId: {}", principal.getId());
         return ResponseEntity.ok(ApiResponse.success(
                 studentService.getMyGrades(principal.getId(), PageRequest.of(page, size)), "Grades fetched"));
     }
