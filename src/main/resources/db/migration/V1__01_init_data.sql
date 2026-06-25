@@ -52,7 +52,7 @@ CREATE TABLE courses
     description   TEXT                                    NOT NULL,
     max_capacity  INTEGER,
     is_active     BOOLEAN                                 NOT NULL,
-    instructor_id BIGINT                                  NOT NULL,
+    instructor_id BIGINT,
     created_at    TIMESTAMP WITHOUT TIME ZONE             NOT NULL,
     updated_at    TIMESTAMP WITHOUT TIME ZONE,
     CONSTRAINT pk_courses PRIMARY KEY (id)
@@ -217,24 +217,21 @@ ALTER TABLE submission_files
 
 
 
-INSERT INTO users (
-    first_name,
-    last_name,
-    user_name,
-    email,
-    password,
-    role,
-    is_active,
-    created_at,
-    updated_at
-) VALUES (
-             'Super',
-             'Admin',
-             'superadmin',
-             'admin@example.com',
-             '$2a$12$7MAWbBTPxeGtPj6Jg5wb1e2beHxSYlO9QhUY61Fz3Qc1jTQH3WxV6',
-             'SUPER_ADMIN',
-             true,
-             CURRENT_TIMESTAMP,
-             CURRENT_TIMESTAMP
-         );
+INSERT INTO users (first_name,
+                   last_name,
+                   user_name,
+                   email,
+                   password,
+                   role,
+                   is_active,
+                   created_at,
+                   updated_at)
+VALUES ('Super',
+        'Admin',
+        'superadmin',
+        'admin@example.com',
+        '$2a$12$7MAWbBTPxeGtPj6Jg5wb1e2beHxSYlO9QhUY61Fz3Qc1jTQH3WxV6',
+        'SUPER_ADMIN',
+        true,
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP);
