@@ -21,46 +21,89 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleNotFound(ResourceNotFoundException ex, HttpServletRequest req) {
+        log.warn("Resource not found [{}]: {}", req.getRequestURI(), ex.getMessage());
         return buildResponse(HttpStatus.NOT_FOUND, ex.getMessage(), req);
     }
 
     @ExceptionHandler(UnauthorizedException.class)
     public ResponseEntity<ErrorResponse> handleUnauthorized(UnauthorizedException ex, HttpServletRequest req) {
+        log.warn("Unauthorized access [{}]: {}", req.getRequestURI(), ex.getMessage());
         return buildResponse(HttpStatus.FORBIDDEN, ex.getMessage(), req);
+    }
+
+    @ExceptionHandler(UsernameAlreadyExistsException.class)
+    public ResponseEntity<ErrorResponse> handleUsernameExists(UsernameAlreadyExistsException ex, HttpServletRequest req) {
+        log.warn("Username conflict [{}]: {}", req.getRequestURI(), ex.getMessage());
+        return buildResponse(HttpStatus.CONFLICT, ex.getMessage(), req);
+    }
+
+    @ExceptionHandler(EmailAlreadyExistsException.class)
+    public ResponseEntity<ErrorResponse> handleEmailExists(EmailAlreadyExistsException ex, HttpServletRequest req) {
+        log.warn("Email conflict [{}]: {}", req.getRequestURI(), ex.getMessage());
+        return buildResponse(HttpStatus.CONFLICT, ex.getMessage(), req);
+    }
+
+    @ExceptionHandler(DuplicateEnrollmentException.class)
+    public ResponseEntity<ErrorResponse> handleDuplicateEnrollment(DuplicateEnrollmentException ex, HttpServletRequest req) {
+        log.warn("Duplicate enrollment [{}]: {}", req.getRequestURI(), ex.getMessage());
+        return buildResponse(HttpStatus.CONFLICT, ex.getMessage(), req);
+    }
+
+    @ExceptionHandler(DuplicateSubmissionException.class)
+    public ResponseEntity<ErrorResponse> handleDuplicateSubmission(DuplicateSubmissionException ex, HttpServletRequest req) {
+        log.warn("Duplicate submission [{}]: {}", req.getRequestURI(), ex.getMessage());
+        return buildResponse(HttpStatus.CONFLICT, ex.getMessage(), req);
+    }
+
+    @ExceptionHandler(CourseCapacityExceededException.class)
+    public ResponseEntity<ErrorResponse> handleCapacityExceeded(CourseCapacityExceededException ex, HttpServletRequest req) {
+        log.warn("Course capacity exceeded [{}]: {}", req.getRequestURI(), ex.getMessage());
+        return buildResponse(HttpStatus.CONFLICT, ex.getMessage(), req);
+    }
+
+    @ExceptionHandler(DeadlinePassedException.class)
+    public ResponseEntity<ErrorResponse> handleDeadlinePassed(DeadlinePassedException ex, HttpServletRequest req) {
+        log.warn("Deadline passed [{}]: {}", req.getRequestURI(), ex.getMessage());
+        return buildResponse(HttpStatus.BAD_REQUEST, ex.getMessage(), req);
+    }
+
+    @ExceptionHandler(InvalidTokenException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidToken(InvalidTokenException ex, HttpServletRequest req) {
+        log.warn("Invalid token [{}]: {}", req.getRequestURI(), ex.getMessage());
+        return buildResponse(HttpStatus.UNAUTHORIZED, ex.getMessage(), req);
+    }
+
+    @ExceptionHandler(FileInvalidException.class)
+    public ResponseEntity<ErrorResponse> handleFileInvalid(FileInvalidException ex, HttpServletRequest req) {
+        log.warn("Invalid file upload [{}]: {}", req.getRequestURI(), ex.getMessage());
+        return buildResponse(HttpStatus.BAD_REQUEST, ex.getMessage(), req);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleValidation(MethodArgumentNotValidException ex, HttpServletRequest req) {
         List<String> errors = ex.getBindingResult().getFieldErrors().stream()
                 .map(FieldError::getDefaultMessage).toList();
+        log.warn("Validation failed [{}]: {}", req.getRequestURI(), errors);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorResponse.builder()
                 .success(false).message("Validation failed").errors(errors)
                 .timestamp(LocalDateTime.now()).path(req.getRequestURI()).build());
     }
 
-    @ExceptionHandler(CourseCapacityExceededException.class)
-    public ResponseEntity<ErrorResponse> handleCapacityExceeded(CourseCapacityExceededException ex, HttpServletRequest req) {
-        return buildResponse(HttpStatus.CONFLICT, ex.getMessage(), req);
-    }
-
-    @ExceptionHandler(DuplicateEnrollmentException.class)
-    public ResponseEntity<ErrorResponse> handleDuplicateEnrollment(DuplicateEnrollmentException ex, HttpServletRequest req) {
-        return buildResponse(HttpStatus.CONFLICT, ex.getMessage(), req);
-    }
-
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<ErrorResponse> handleBadCredentials(BadCredentialsException ex, HttpServletRequest req) {
+        log.warn("Bad credentials attempt [{}]", req.getRequestURI());
         return buildResponse(HttpStatus.UNAUTHORIZED, "Invalid email or password", req);
     }
 
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<ErrorResponse> handleAccessDenied(AccessDeniedException ex, HttpServletRequest req) {
+        log.warn("Access denied [{}]: {}", req.getRequestURI(), ex.getMessage());
         return buildResponse(HttpStatus.FORBIDDEN, "Access denied", req);
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGeneral(Exception ex, HttpServletRequest req) {
-        log.error("Unhandled exception: {}", ex.getMessage(), ex);
+        log.error("Unhandled exception [{}]: {}", req.getRequestURI(), ex.getMessage(), ex);
         return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred", req);
     }
 

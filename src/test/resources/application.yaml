@@ -1,0 +1,40 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        format_sql: false
+        show_sql: false
+        default_schema: PUBLIC
+
+  flyway:
+    enabled: false
+
+  mail:
+    host: localhost
+    port: 1025
+    username: test@test.com
+    password: test
+    test-connection: false
+
+app:
+  jwt:
+    # 32-byte base64-encoded key (minimum for HS256)
+    secret: dGVzdC1zZWNyZXQta2V5LWZvci11bml0LXRlc3RpbmctcHVycG9zZXM=
+    access-token-expiration: 900000
+    refresh-token-expiration: 604800000
+
+aws:
+  access-key: test-access-key
+  secret-key: test-secret-key
+  region: us-east-1
+  s3:
+    bucket-name: test-bucket
