@@ -1,6 +1,11 @@
 spring:
   application:
     name: cohort-platform
+  ai:
+    google:
+      genai:
+        api-key: ${API_KEY}
+        model: gemini-pro
 
   datasource:
     url: ${DB_URL}
@@ -11,8 +16,8 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: ${MAIL_USER:noreply@restaurant.com}
-    password: ${MAIL_PASS:changeme}
+    username: ${MAIL_USER}
+    password: ${MAIL_PASS}
     properties:
       mail:
         smtp:

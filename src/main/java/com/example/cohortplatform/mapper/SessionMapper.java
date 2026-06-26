@@ -1,6 +1,6 @@
 package com.example.cohortplatform.mapper;
 
-import com.example.cohortplatform.dto.response.QuestionResponse;
+import com.example.cohortplatform.dto.response.ChatMessageResponse;
 import com.example.cohortplatform.dto.response.SessionResponse;
 import com.example.cohortplatform.entities.LiveSession;
 import lombok.RequiredArgsConstructor;
@@ -17,14 +17,12 @@ public class SessionMapper {
     private final UserMapper userMapper;
 
     public SessionResponse toResponse(LiveSession session) {
-        List<QuestionResponse> questions = session.getQuestions().stream()
-                .map(q -> QuestionResponse.builder()
-                        .questionId(q.getId())
-                        .text(q.getQuestionText())
-                        .isAnswered(q.isAnswered())
-                        .askedAt(q.getAskedAt())
-                        .answeredAt(q.getAnsweredAt())
-                        .askedBy(userMapper.toSummary(q.getAskedBy()))
+        List<ChatMessageResponse> messages = session.getMessages().stream()
+                .map(m -> ChatMessageResponse.builder()
+                        .messageId(m.getId())
+                        .text(m.getMessageText())
+                        .sentAt(m.getSentAt())
+                        .sentBy(userMapper.toSummary(m.getSentBy()))
                         .build())
                 .collect(Collectors.toList());
 
@@ -36,7 +34,7 @@ public class SessionMapper {
                 .endedAt(session.getEndedAt())
                 .isActive(session.isActive())
                 .course(courseMapper.toSummary(session.getCourse()))
-                .questions(questions)
+                .messages(messages)
                 .build();
     }
 }

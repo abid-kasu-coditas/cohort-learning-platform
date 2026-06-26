@@ -49,7 +49,7 @@ public class LiveSession {
 
     @Builder.Default
     @OneToMany(mappedBy = "session", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<SessionQuestion> questions = new ArrayList<>();
+    private List<SessionQuestion> messages = new ArrayList<>();
 
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)

@@ -1,6 +1,6 @@
 package com.example.cohortplatform.dto.message;
 
-import com.example.cohortplatform.dto.response.QuestionResponse;
+import com.example.cohortplatform.dto.response.ChatMessageResponse;
 import lombok.Builder;
 import lombok.Data;
 
@@ -8,14 +8,18 @@ import lombok.Data;
 @Builder
 public class SessionEvent {
 
-    private String type; // QUESTION_ASKED | QUESTION_ANSWERED
-    private QuestionResponse question;
+    private String type; // CHAT_MESSAGE | SESSION_STARTED | SESSION_ENDED
+    private ChatMessageResponse message;
 
-    public static SessionEvent questionAsked(QuestionResponse question) {
-        return SessionEvent.builder().type("QUESTION_ASKED").question(question).build();
+    public static SessionEvent chatMessage(ChatMessageResponse message) {
+        return SessionEvent.builder().type("CHAT_MESSAGE").message(message).build();
     }
 
-    public static SessionEvent questionAnswered(QuestionResponse question) {
-        return SessionEvent.builder().type("QUESTION_ANSWERED").question(question).build();
+    public static SessionEvent sessionStarted() {
+        return SessionEvent.builder().type("SESSION_STARTED").build();
+    }
+
+    public static SessionEvent sessionEnded() {
+        return SessionEvent.builder().type("SESSION_ENDED").build();
     }
 }

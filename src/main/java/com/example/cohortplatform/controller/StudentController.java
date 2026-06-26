@@ -1,8 +1,11 @@
 package com.example.cohortplatform.controller;
 
+import com.example.cohortplatform.dto.request.CoachRequest;
 import com.example.cohortplatform.dto.response.*;
 import com.example.cohortplatform.security.UserPrincipal;
 import com.example.cohortplatform.service.StudentService;
+import com.example.cohortplatform.service.StudyCoachService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
@@ -21,6 +24,7 @@ import java.util.List;
 public class StudentController {
 
     private final StudentService studentService;
+    private final StudyCoachService studyCoachService;
 
 
     @GetMapping("/courses")
@@ -108,6 +112,12 @@ public class StudentController {
             @RequestParam(defaultValue = "10") int size) {
         return ResponseEntity.ok(ApiResponse.success(
                 studentService.getMyGrades(principal.getId(), PageRequest.of(page, size)), "Grades fetched"));
+    }
+    @PostMapping("/coach")
+    public ResponseEntity<ApiResponse<CoachResponse>> chat(
+            @Valid @RequestBody CoachRequest request) {
+        return ResponseEntity.ok(ApiResponse.success(
+                studyCoachService.chat(request), "Coach response"));
     }
 
 }

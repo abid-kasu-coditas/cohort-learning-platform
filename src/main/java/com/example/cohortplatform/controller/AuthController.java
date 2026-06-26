@@ -3,9 +3,7 @@ package com.example.cohortplatform.controller;
 import com.example.cohortplatform.dto.request.LoginRequest;
 import com.example.cohortplatform.dto.request.RefreshTokenRequest;
 import com.example.cohortplatform.dto.request.RegisterUserRequest;
-import com.example.cohortplatform.dto.response.ApiResponse;
-import com.example.cohortplatform.dto.response.AuthResponse;
-import com.example.cohortplatform.dto.response.RegisterResponse;
+import com.example.cohortplatform.dto.response.*;
 import com.example.cohortplatform.security.UserPrincipal;
 import com.example.cohortplatform.service.AuthService;
 import jakarta.validation.Valid;
@@ -23,29 +21,33 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
 @Slf4j
-public class AuthController {
+public class AuthController{
 
     private final AuthService authService;
 
     @PostMapping("/register")
-    public ResponseEntity<ApiResponse<RegisterResponse>> register(@Valid @RequestBody RegisterUserRequest request) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success(authService.registerUser(request), "User Registered Successfully"));
+    public ResponseEntity<ApiResponse<RegisterResponse>> register(@Valid @RequestBody RegisterUserRequest request){
+        log.debug("POST /register - username: {}", request.username());
+        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success(authService.registerUser(request),"User Registered Successfully"));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<ApiResponse<AuthResponse>> login(@Valid @RequestBody LoginRequest request) {
-        return ResponseEntity.ok(ApiResponse.success(authService.login(request), "Login Successful"));
+    public ResponseEntity<ApiResponse<AuthResponse>> login(@Valid @RequestBody LoginRequest request){
+        log.debug("POST /login - email: {}", request.email());
+        return ResponseEntity.ok(ApiResponse.success(authService.login(request),"Login Successful"));
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<ApiResponse<Void>> logout(@AuthenticationPrincipal UserPrincipal principal) {
+    public ResponseEntity<ApiResponse<Void>> logout(@AuthenticationPrincipal UserPrincipal principal){
+        log.debug("POST /logout - userId: {}", principal.getId());
         authService.logout(principal.getId());
         return ResponseEntity.ok(ApiResponse.success("Logout Successfully"));
     }
 
     @PostMapping("/refresh")
-    public ResponseEntity<ApiResponse<AuthResponse>> refresh(@Valid @RequestBody RefreshTokenRequest request) {
-        return ResponseEntity.ok(ApiResponse.success(authService.refresh(request), "Token Refreshed"));
+    public ResponseEntity<ApiResponse<AuthResponse>> refresh(@Valid @RequestBody RefreshTokenRequest request){
+        log.debug("POST /refresh - token refresh requested");
+        return ResponseEntity.ok(ApiResponse.success(authService.refresh(request),"Token Refreshed"));
     }
 
 }

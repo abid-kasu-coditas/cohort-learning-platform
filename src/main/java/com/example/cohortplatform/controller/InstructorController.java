@@ -33,7 +33,7 @@ public class InstructorController {
             @AuthenticationPrincipal UserPrincipal principal,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
-        return ResponseEntity.ok(ApiResponse.success(
+         return ResponseEntity.ok(ApiResponse.success(
                 instructorService.getMyCourses(principal.getId(), PageRequest.of(page, size)), "Courses fetched"));
     }
 
@@ -43,7 +43,7 @@ public class InstructorController {
             @AuthenticationPrincipal UserPrincipal principal,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
-        return ResponseEntity.ok(ApiResponse.success(
+         return ResponseEntity.ok(ApiResponse.success(
                 instructorService.getCourseStudents(courseId, principal.getId(), PageRequest.of(page, size)), "Students fetched"));
     }
 
@@ -53,7 +53,7 @@ public class InstructorController {
             @PathVariable Long courseId,
             @RequestParam("file") MultipartFile file,
             @AuthenticationPrincipal UserPrincipal principal) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success(
+         return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success(
                 instructorService.uploadMaterial(courseId, principal.getId(), file), "Material uploaded"));
     }
 
@@ -62,7 +62,7 @@ public class InstructorController {
             @PathVariable Long courseId,
             @PathVariable Long materialId,
             @AuthenticationPrincipal UserPrincipal principal) {
-        instructorService.deleteMaterial(courseId, materialId, principal.getId());
+         instructorService.deleteMaterial(courseId, materialId, principal.getId());
         return ResponseEntity.ok(ApiResponse.success("Material deleted"));
     }
 
@@ -72,7 +72,7 @@ public class InstructorController {
             @PathVariable Long courseId,
             @Valid @RequestBody CreateAnnouncementRequest request,
             @AuthenticationPrincipal UserPrincipal principal) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success(
+         return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success(
                 instructorService.createAnnouncement(courseId, principal.getId(), request), "Announcement posted"));
     }
 
@@ -82,7 +82,7 @@ public class InstructorController {
             @AuthenticationPrincipal UserPrincipal principal,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
-        return ResponseEntity.ok(ApiResponse.success(
+         return ResponseEntity.ok(ApiResponse.success(
                 instructorService.getAnnouncements(courseId, principal.getId(), PageRequest.of(page, size)), "Announcements fetched"));
     }
 
@@ -92,7 +92,7 @@ public class InstructorController {
             @PathVariable Long courseId,
             @Valid @RequestBody CreateAssignmentRequest request,
             @AuthenticationPrincipal UserPrincipal principal) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success(
+         return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success(
                 instructorService.createAssignment(courseId, principal.getId(), request), "Assignment created"));
     }
 
@@ -102,7 +102,7 @@ public class InstructorController {
             @AuthenticationPrincipal UserPrincipal principal,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
-        return ResponseEntity.ok(ApiResponse.success(
+         return ResponseEntity.ok(ApiResponse.success(
                 instructorService.getAssignments(courseId, principal.getId(), PageRequest.of(page, size)), "Assignments fetched"));
     }
 
@@ -113,7 +113,7 @@ public class InstructorController {
             @AuthenticationPrincipal UserPrincipal principal,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
-        return ResponseEntity.ok(ApiResponse.success(
+         return ResponseEntity.ok(ApiResponse.success(
                 instructorService.getSubmissions(courseId, assignmentId, principal.getId(), PageRequest.of(page, size)), "Submissions fetched"));
     }
 
@@ -123,7 +123,7 @@ public class InstructorController {
             @PathVariable Long submissionId,
             @Valid @RequestBody GradeSubmissionRequest request,
             @AuthenticationPrincipal UserPrincipal principal) {
-        return ResponseEntity.ok(ApiResponse.success(
+         return ResponseEntity.ok(ApiResponse.success(
                 instructorService.gradeSubmission(submissionId, principal.getId(), request), "Submission graded"));
     }
 

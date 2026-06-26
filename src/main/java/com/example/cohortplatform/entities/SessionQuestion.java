@@ -7,6 +7,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
+
 @Entity
 @Getter
 @Setter
@@ -21,25 +22,18 @@ public class SessionQuestion {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "question_text", nullable = false, columnDefinition = "TEXT")
-    private String questionText;
-
-    @Builder.Default
-    @Column(name = "is_answered", nullable = false)
-    private boolean isAnswered = false;
-
-    @Column(name = "answered_at")
-    private LocalDateTime answeredAt;
+    @Column(name = "message_text", nullable = false, columnDefinition = "TEXT")
+    private String messageText;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "session_id", nullable = false)
     private LiveSession session;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "asked_by", nullable = false)
-    private User askedBy;
+    @JoinColumn(name = "sent_by", nullable = false)
+    private User sentBy;
 
     @CreatedDate
-    @Column(name = "asked_at", nullable = false, updatable = false)
-    private LocalDateTime askedAt;
+    @Column(name = "sent_at", nullable = false, updatable = false)
+    private LocalDateTime sentAt;
 }

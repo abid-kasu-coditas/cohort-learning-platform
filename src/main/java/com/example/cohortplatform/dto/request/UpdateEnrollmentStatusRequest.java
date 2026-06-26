@@ -4,5 +4,6 @@ import com.example.cohortplatform.entities.enums.EnrollmentStatus;
 import jakarta.validation.constraints.NotNull;
 
 public record UpdateEnrollmentStatusRequest(
-        @NotNull(message = "Status is required") EnrollmentStatus status
+        @NotNull(message = "Status is required")
+        EnrollmentStatus status
 ) {}

@@ -14,5 +14,5 @@ public record SessionResponse(
         LocalDateTime endedAt,
         boolean isActive,
         CourseSummaryDto course,
-        List<QuestionResponse> questions
+        List<ChatMessageResponse> messages
 ) {}

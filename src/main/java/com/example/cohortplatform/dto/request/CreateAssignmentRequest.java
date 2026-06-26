@@ -7,7 +7,11 @@ import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 public record CreateAssignmentRequest(
-        @NotBlank(message = "Title is required") String title,
-        @NotBlank(message = "Description is required") String description,
-        @NotNull(message = "Deadline is required") @Future(message = "Deadline must be in the future") LocalDateTime deadline
+        @NotBlank(message = "Title is required")
+        String title,
+        @NotBlank(message = "Description is required")
+        String description,
+        @NotNull(message = "Deadline is required")
+        @Future(message = "Deadline must be in the future")
+        LocalDateTime deadline
 ) {}
