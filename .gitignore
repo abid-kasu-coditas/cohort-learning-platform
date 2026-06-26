@@ -33,3 +33,4 @@ build/
 
 ### VS Code ###
 .vscode/
+/websocket_files/node_modules
